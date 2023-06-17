@@ -1,0 +1,124 @@
+﻿<UserControl x:Class="Slacker.Views.SlackerUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:core="clr-namespace:System;assembly=mscorlib"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:Slacker.ViewModels"
+             xmlns:models="clr-namespace:Slacker.Models"
+             xmlns:repositories="clr-namespace:Slacker.Repositories"
+             mc:Ignorable="d"
+             d:DesignHeight="720" d:DesignWidth="1280">
+    <UserControl.Resources>
+        <viewModels:FileViewModel x:Key="FileViewModel" />
+        <viewModels:ToDoListViewModel x:Key="ToDoListViewModel" />
+        <viewModels:TaskViewModel x:Key="TaskViewModel" />
+        <viewModels:ViewViewModel x:Key="ViewViewModel" />
+        <viewModels:HelpViewModel x:Key="HelpViewModel" />
+
+        <repositories:ToDoListRepository x:Key="ToDoListRepository" />
+        <repositories:CategoryRepository x:Key="CategoryRepository" />
+    </UserControl.Resources>
+
+    <Grid>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="File" DataContext="{Binding Source={StaticResource FileViewModel}}">
+                    <MenuItem Header="New" Command="ApplicationCommands.New" />
+                    <MenuItem Header="Open" Command="ApplicationCommands.Open" />
+                    <MenuItem Header="Save" Command="ApplicationCommands.Save" />
+                    <MenuItem Header="Save As..." Command="ApplicationCommands.SaveAs" />
+                    <Separator />
+                    <MenuItem Header="Exit" Command="ApplicationCommands.Close" />
+                </MenuItem>
+                <MenuItem Header="To Do List" DataContext="{Binding Source={StaticResource ToDoListViewModel}}">
+                    <MenuItem Header="Add Root TDL" Command="{Binding AddRootToDoListCommand}" />
+                    <MenuItem Header="Add Sub-TDL" Command="{Binding AddSubToDoListCommand}"
+                              CommandParameter="{Binding ElementName=ToDoListTreeView, Path=SelectedItem}" />
+                    <MenuItem Header="Edit" Command="{Binding EditToDoListCommand}"
+                              CommandParameter="{Binding ElementName=ToDoListTreeView, Path=SelectedItem}" />
+                    <MenuItem Header="Delete" Command="{Binding DeleteToDoListCommand}"
+                              CommandParameter="{Binding ElementName=ToDoListTreeView, Path=SelectedItem}" />
+                    <MenuItem Header="Move Up" Command="{Binding MoveUpToDoListCommand}"
+                              CommandParameter="{Binding ElementName=ToDoListTreeView, Path=SelectedItem}" />
+                    <MenuItem Header="Move Down" Command="{Binding MoveDownToDoListCommand}"
+                              CommandParameter="{Binding ElementName=ToDoListTreeView, Path=SelectedItem}" />
+                    <MenuItem Header="Change Path" Command="{Binding ChangePathToDoListCommand}"
+                              CommandParameter="{Binding ElementName=ToDoListTreeView, Path=SelectedItem}" />
+                </MenuItem>
+                <MenuItem Header="Task" DataContext="{Binding Source={StaticResource TaskViewModel}}">
+                    <MenuItem Header="Add" Command="{Binding AddTaskCommand}" />
+                    <MenuItem Header="Edit" Command="{Binding EditTaskCommand}" />
+                    <MenuItem Header="Delete" Command="{Binding DeleteTaskCommand}" />
+                    <MenuItem Header="Set Done" Command="{Binding SetDoneTaskCommand}" />
+                    <MenuItem Header="Move Up" Command="{Binding MoveUpTaskCommand}"
+                              CommandParameter="{Binding ElementName=TaskDataGrid, Path=SelectedItem}" />
+                    <MenuItem Header="Move Down" Command="{Binding MoveDownTaskCommand}"
+                              CommandParameter="{Binding ElementName=TaskDataGrid, Path=SelectedItem}" />
+                    <MenuItem Header="Manage Category" Command="{Binding ManageCategoryTaskCommand}" />
+                    <MenuItem Header="Find Task" Command="{Binding FindTaskCommand}" />
+                </MenuItem>
+                <MenuItem Header="View" DataContext="{Binding Source={StaticResource ViewViewModel}}">
+                    <MenuItem Header="Sort" Command="{Binding SortCommand}" />
+                    <MenuItem Header="Filter" Command="{Binding FilterCommand}" />
+                    <MenuItem Header="Statistics" Command="{Binding StatisticsCommand}" />
+                </MenuItem>
+                <MenuItem Header="Help" DataContext="{Binding Source={StaticResource HelpViewModel}}">
+                    <MenuItem Header="About" Command="{Binding AboutCommand}" />
+                </MenuItem>
+            </Menu>
+
+            <Grid>
+                <TreeView Name="ToDoListTreeView" Margin="10,10,0,155" HorizontalAlignment="Left" Width="260" DataContext="{Binding Source={StaticResource ToDoListRepository}}" ItemsSource="{Binding RootToDoLists}">
+                    <TreeView.Resources>
+                        <Style TargetType="{x:Type TreeViewItem}">
+                            <Setter Property="IsExpanded" Value="True" />
+                        </Style>
+                        <HierarchicalDataTemplate DataType="{x:Type models:ToDoList}" ItemsSource="{Binding Path=ToDoLists}">
+                            <DockPanel>
+                                <Image Source="{Binding Path=ImagePath}" Height="30" />
+                                <TextBlock Text="{Binding Path=Name}" VerticalAlignment="Center" />
+                            </DockPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.Resources>
+                </TreeView>
+
+                <StackPanel Name="StatisticsStackPanel" Height="140" Margin="10,0,0,10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="260">
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Margin" Value="5" />
+                        </Style>
+                    </StackPanel.Resources>
+                    <TextBlock Name="TasksDueTodayTextBlock" Text="Tasks due today: 0"/>
+                    <TextBlock Name="TasksDueTomorrowTextBlock" Text="Tasks due tomorrow: 0"/>
+                    <TextBlock Name="TasksOverdueTextBlock" Text="Tasks overdue: 0"/>
+                    <Separator />
+                    <TextBlock Name="TasksDoneTextBlock" Text="Tasks done: 0"/>
+                    <TextBlock Name="TasksToBeDoneTextBlock" Text="Tasks to be done: 0"/>
+                </StackPanel>
+
+
+
+                <Grid Margin="270,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4*" />
+                        <RowDefinition Height="3*" />
+                    </Grid.RowDefinitions>
+
+                    <DataGrid Name="TaskDataGrid" DataContext="{Binding ElementName=ToDoListTreeView, Path=SelectedItem}" ItemsSource="{Binding Tasks}" Grid.Row="0" Margin="10,10,10,0" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="NameColumn" Header="Name" Binding="{Binding Name}" />
+                            <DataGridComboBoxColumn x:Name="StatusColumn" Header="Status" SelectedItemBinding="{Binding Status}" />
+                            <DataGridComboBoxColumn x:Name="PriorityColumn" Header="Priority" SelectedItemBinding="{Binding Priority}" />
+                            <DataGridTextColumn x:Name="DeadlineColumn" Header="Deadline" Binding="{Binding Deadline}" />
+                            <DataGridTextColumn x:Name="DoneDateColumn" Header="DoneDate" Binding="{Binding DoneDate}" />
+                            <DataGridComboBoxColumn x:Name="CategoryColumn" Header="Category" SelectedItemBinding="{Binding Category}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <TextBox Name="DescriptionTextBox" TextWrapping="Wrap" DataContext="{Binding ElementName=TaskDataGrid, Path=SelectedItem}" Text="{Binding Description}" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Grid.Row="1" Margin="10,10,10,10"/>
+                </Grid>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,12 @@
+﻿<Window x:Class="Slacker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Views="clr-namespace:Slacker.Views"
+        mc:Ignorable="d"
+        Title="Slacker" Height="720" Width="1280">
+    <Grid>
+        <Views:SlackerUserControl x:Name="SlackerUserControl" />
+    </Grid>
+</Window>

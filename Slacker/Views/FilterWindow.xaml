@@ -1,0 +1,38 @@
+﻿<Window x:Class="Slacker.Views.FilterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:Slacker.Views"
+        mc:Ignorable="d"
+        Title="FilterWindow" Height="665" Width="577" ResizeMode="NoResize">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <ComboBox Name="CategoryComboBox" HorizontalAlignment="Left" Margin="105,0,0,0" VerticalAlignment="Center" Width="120" SelectionChanged="CategoryComboBox_SelectionChanged"/>
+
+            <StackPanel Margin="0,0,80,0" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <RadioButton x:Name="CategoryRadioButton" Content="Category" Height="20" VerticalContentAlignment="Center" Checked="CategoryRadioButton_Checked"/>
+                <RadioButton x:Name="DoneRadioButton" Content="Done" Height="20" VerticalContentAlignment="Center" Checked="DoneRadioButton_Checked"/>
+                <RadioButton x:Name="OverdueRadioButton" Content="Overdue" Height="20" VerticalContentAlignment="Center" Checked="OverdueRadioButton_Checked"/>
+                <RadioButton x:Name="OverdueInProgressRadioButton" Content="Overdue in progress" Height="20" VerticalContentAlignment="Center" Checked="OverdueInProgressRadioButton_Checked"/>
+                <RadioButton x:Name="NotDoneRadioButton" Content="Not done" Height="20" VerticalContentAlignment="Center" Checked="NotDoneRadioButton_Checked"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="0,3,0,0">
+            <DataGrid Name="TaskDataGrid" ItemsSource="{Binding Tasks}" HorizontalAlignment="Left"
+                      Margin="33,36,0,31" Width="366" />
+            <Button Name="SelectTaskButton" Content="Select Task" Height="32" Width="92" HorizontalAlignment="Right"
+                    VerticalAlignment="Center" Margin="0,0,48,0" />
+        </Grid>
+
+    </Grid>
+</Window>

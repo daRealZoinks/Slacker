@@ -1,0 +1,30 @@
+﻿<Window x:Class="Slacker.Views.CategoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:repositories="clr-namespace:Slacker.Repositories"
+        mc:Ignorable="d"
+        Title="CategoryWindow" Height="407" Width="360" ResizeMode="NoResize">
+    <Window.Resources>
+        <repositories:CategoryRepository x:Key="CategoryRepository" />
+    </Window.Resources>
+
+    <Grid>
+
+        <ListBox Name="CategoryNameListBox"
+                 ItemsSource="{Binding Categories, Source={StaticResource CategoryRepository}}" Margin="0,0,0,147"
+                 SelectionChanged="CategoryNameListBox_SelectionChanged" />
+
+        <Button Name="AddCategoryButton" Content="Add" Height="30" Width="80" HorizontalAlignment="Left"
+                VerticalAlignment="Bottom" Margin="27,0,0,27" Click="AddCategoryButton_Click" />
+        <Button Name="EditCategoryButton" Content="Edit" Height="30" Width="80" HorizontalAlignment="Center"
+                VerticalAlignment="Bottom" Margin="0,0,0,27" Click="EditCategoryButton_Click" />
+        <Button Name="DeleteCategoryButton" Content="Delete" Height="30" Width="80" HorizontalAlignment="Right"
+                VerticalAlignment="Bottom" Margin="0,0,27,27" Click="DeleteCategoryButton_Click" />
+        <TextBox Name="CategoryNameTextBox" Text="Category name" Height="37" Width="184" HorizontalAlignment="Center"
+                 VerticalAlignment="Bottom" Margin="0,0,0,85" HorizontalContentAlignment="Center"
+                 VerticalContentAlignment="Center" />
+
+    </Grid>
+</Window>

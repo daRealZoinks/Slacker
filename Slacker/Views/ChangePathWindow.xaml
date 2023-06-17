@@ -1,0 +1,35 @@
+﻿<Window x:Class="Slacker.Views.ChangePathWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="clr-namespace:Slacker.Models"
+        xmlns:repositories="clr-namespace:Slacker.Repositories"
+        mc:Ignorable="d"
+        Title="ChangePathWindow" Height="300" Width="250">
+    <Window.Resources>
+        <repositories:ToDoListRepository x:Key="ToDoListRepository" />
+    </Window.Resources>
+    <Grid>
+        <TreeView Name="ToDoListTreeView"
+                  DataContext="{Binding Source={StaticResource ToDoListRepository}}"
+                  ItemsSource="{Binding RootToDoLists}"
+                  SelectedItemChanged="ToDoListTreeView_SelectedItemChanged">
+
+            <TreeView.Resources>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="True" />
+                </Style>
+
+                <HierarchicalDataTemplate DataType="{x:Type models:ToDoList}"
+                                          ItemsSource="{Binding Path=ToDoLists}">
+                    <DockPanel>
+                        <Image Source="{Binding Path=ImagePath}" Height="30" />
+                        <TextBlock Text="{Binding Path=Name}" VerticalAlignment="Center" />
+                    </DockPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+
+        </TreeView>
+    </Grid>
+</Window>

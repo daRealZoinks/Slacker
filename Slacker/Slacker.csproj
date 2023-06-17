@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Remove="bin\**" />
+        <Compile Remove="Diagrams\**" />
+        <EmbeddedResource Remove="bin\**" />
+        <EmbeddedResource Remove="Diagrams\**" />
+        <None Remove="bin\**" />
+        <None Remove="Diagrams\**" />
+        <Page Remove="bin\**" />
+        <Page Remove="Diagrams\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="Assets\House.png" />
+        <None Remove="Assets\Rectangles.png" />
+        <None Remove="Assets\Tree.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Resource Include="Assets\House.png" />
+        <Resource Include="Assets\Rectangles.png" />
+        <Resource Include="Assets\Tree.png" />
+    </ItemGroup>
+
+</Project>

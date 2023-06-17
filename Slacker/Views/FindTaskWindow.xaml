@@ -1,0 +1,47 @@
+﻿<Window x:Class="Slacker.Views.FindTaskWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="FindTask" Height="665" Width="577" ResizeMode="NoResize">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <TextBox Name="NameSearchTextBox" Text="" VerticalAlignment="Center" HorizontalAlignment="Left"
+                     Visibility="{Binding IsChecked, ElementName=NameRadioButton, Converter={StaticResource BooleanToVisibilityConverter}}"
+                     TextChanged="SearchTextBox_TextChanged" Width="200" Height="50" Margin="96,0,0,0" />
+            <Calendar Name="DeadlineSearchCalendar" SelectedDatesChanged="DeadlineSearchCalendar_SelectedDatesChanged"
+                      Visibility="{Binding IsChecked, ElementName=DeadlineRadioButton, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      VerticalAlignment="Center" HorizontalAlignment="Left" Margin="107,0,0,0" />
+
+            <Grid Margin="0,0,110,0" HorizontalAlignment="Right" VerticalAlignment="Center" Width="73"
+                  Height="60">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <RadioButton x:Name="NameRadioButton" IsChecked="True" Content="Name" Height="20"
+                             VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.Row="0" />
+                <RadioButton x:Name="DeadlineRadioButton" Content="Deadline" Height="20" VerticalAlignment="Center"
+                             VerticalContentAlignment="Center" Grid.Row="1" />
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="0,3,0,0">
+            <DataGrid Name="TaskDataGrid" ItemsSource="{Binding Tasks}" HorizontalAlignment="Left"
+                      Margin="33,36,0,31" Width="366" />
+            <Button Name="SelectTaskButton" Content="Select Task" Height="32" Width="92" HorizontalAlignment="Right"
+                    VerticalAlignment="Center" Click="SelectTaskButton_Click" Margin="0,0,48,0" />
+        </Grid>
+
+    </Grid>
+</Window>
